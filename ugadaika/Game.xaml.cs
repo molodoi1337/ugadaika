@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,11 +24,11 @@ namespace ugadaika
         DispatcherTimer _timer;
         TimeSpan _time;
 
-        public Game()// закинуть таймер в функцию и сделать сброс времени после победы или поражение,добавить поражение ну и по визуалу
+        public Game(int start)//внедрить в конец игры _timer.stop
         {
             InitializeComponent();
 
-            _time = TimeSpan.FromSeconds(80);
+            _time = TimeSpan.FromSeconds(start);
 
             _timer = new DispatcherTimer(new TimeSpan(0, 0, 1), DispatcherPriority.Normal, delegate
             {
@@ -37,6 +38,7 @@ namespace ugadaika
             }, Application.Current.Dispatcher);
 
             _timer.Start();
+            StartNewGame();
         }
 
 
@@ -49,26 +51,20 @@ namespace ugadaika
 
         private void HandleGuess()
         {
-            int userGuess;
-
-            if (int.TryParse(guessNumberTextBox.Text, out userGuess))
+            if (int.TryParse(guessNumberTextBox.Text, out int userGuess))
             {
                 attemptsCount++;
+                if (attemptsCount % 3 == 0)
+                {
+                    Surprise.Visibility = Visibility.Visible;
+                    Surprise.IsEnabled = true;
+                }
 
                 if (userGuess == targetNumber)
                 {
                     resultTextBlock.Text = $"Вы угадали число за {attemptsCount} попыток!";
-                    StartNewGame();
                 }
-                else if (userGuess < targetNumber)
-                {
-                    resultTextBlock.Text = "Загаданное число больше.";
-                }
-                else
-                {
-                    resultTextBlock.Text = "Загаданное число меньше.";
-                }
-
+                
                 guessNumberTextBox.Text = "";
             }
             else
@@ -77,7 +73,12 @@ namespace ugadaika
             }
         }
 
-        private void guessButton_Click(object sender, RoutedEventArgs e)
+        private void Win()
+        {
+            
+        }
+
+        private void GuessButton_Click(object sender, RoutedEventArgs e)
         {
             HandleGuess();
         }
@@ -87,6 +88,30 @@ namespace ugadaika
             if (e.Key == System.Windows.Input.Key.Enter)
             {
                 HandleGuess();
+            }
+        }
+
+        private void Surprise_Click(object sender, RoutedEventArgs e)
+        {
+            long temp;
+            if (long.TryParse(guessNumberTextBox.Text, out temp))
+            {
+                temp = Convert.ToInt64(guessNumberTextBox.Text);
+
+                if (temp > targetNumber)
+                {
+                    resultTextBlock.Text = "нужное число меньше";
+                }
+                if (temp < targetNumber)
+                {
+                    resultTextBlock.Text = "Нужное число больше";
+                }
+                if (temp == targetNumber)
+                    resultTextBlock.Text = "вы угадали";
+                guessNumberTextBox.Text = null;
+
+                Surprise.Visibility = Visibility.Hidden; Surprise.IsEnabled = false;
+
             }
         }
     }

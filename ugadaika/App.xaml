@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:ugadaika"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+        
         <Style x:Key="StyleButton" TargetType="Button">
             <Setter Property="Margin" Value="15"/>
             

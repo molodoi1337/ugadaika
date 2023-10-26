@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ugadaika"
+        xmlns:local="clr-namespace:ugadaika.Properties"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
@@ -23,7 +23,7 @@
             </Grid.RowDefinitions>
             <Button x:Name="StarGameButton" 
                     Grid.Column="0" Grid.Row="1"
-                    Content="Start Game" Style="{StaticResource StyleButton}" Click="StarGameButton_Click" >
+                    Style="{StaticResource StyleButton}" Click="StarGameButton_Click" Content="{x:Static local:Lang.Start}" >
                 <Button.ToolTip>
                     <TextBlock>Начать новую игру</TextBlock>
                 </Button.ToolTip>
@@ -31,7 +31,7 @@
 
                 <Button x:Name="ExitButton" 
                     Grid.Column="1" Grid.Row="1"
-                    Content="Exit" Style="{StaticResource StyleButton}" Click="ExitButton_Click_1"/>
+                    Style="{StaticResource StyleButton}" Content="{x:Static local:Lang.Exit}"  Click="ExitButton_Click_1"/>
         </Grid>
         <!-- Меню игры-->
         <Grid Grid.Row="0">
@@ -41,32 +41,32 @@
             </Grid.RowDefinitions>
 
             <Menu Grid.Row="0">
-                <MenuItem Header="_Игра">
-                    <MenuItem Header="_Новая игра" InputGestureText="Ctrl+N">
-                        <MenuItem.Icon>
-                            <Image Source="/Image/krutye-kartinki-dlya-vk-12.jpg"/>
-                        </MenuItem.Icon>
+                <MenuItem x:Name="MenuGame" Header="{x:Static local:Lang.Game}">
+                    <MenuItem Header="{x:Static local:Lang.NewGame}" InputGestureText="Ctrl+N">
                     </MenuItem>
                     <Separator/>
-                    <MenuItem Header="Закрыть" InputGestureText="Alt+F4"/>
+                    <MenuItem Header="{x:Static local:Lang.Exit}" InputGestureText="Alt+F4"/>
                 </MenuItem>
-                
-                <MenuItem Header="Настройки">
-                    <MenuItem Header="Язык">
-                        <RadioButton Content="Russian"/>
-                        <RadioButton Content="English"/>
-                        </MenuItem>
-                    <MenuItem Header="Цвета">
-                        <RadioButton  HorizontalAlignment="Stretch" Content="Синий" Click="ChangeColor"/>
-                        <RadioButton  HorizontalAlignment="Stretch" Content="Зеленый" Click="ChangeColor"/>
-                        <RadioButton  HorizontalAlignment="Stretch" Content="Розовый" Click="ChangeColor"/>
+
+                <MenuItem Header="{x:Static local:Lang.Settings}">
+                    <MenuItem Header="{x:Static local:Lang.Language}">
+                        <RadioButton Content="{x:Static local:Lang.Russian}"/>
+                        <RadioButton Content="{x:Static local:Lang.English}"/>
+                    </MenuItem>
+                    <MenuItem Header="{x:Static local:Lang.Difficutly}">
+                        <RadioButton x:Name="легко" Content="{x:Static local:Lang.Easy}" Click="Difficlty"/>
+                        <RadioButton x:Name="средне" Content="{x:Static local:Lang.Medium}" Click="Difficlty"/>
+                        <RadioButton x:Name="сложно" Content="{x:Static local:Lang.Hard}" Click="Difficlty"/>
+                        <RadioButton x:Name="невозможно" Content="{x:Static local:Lang.Impossible}" Click="Difficlty"/>
+                    </MenuItem>
+                    <MenuItem Header="{x:Static local:Lang.Colors}">
+                        <RadioButton x:Name="Blue"  HorizontalAlignment="Stretch" Content="{x:Static local:Lang.Blue}" Click="ChangeColor"/>
+                        <RadioButton x:Name="Green" HorizontalAlignment="Stretch" Content="{x:Static local:Lang.Green}" Click="ChangeColor"/>
+                        <RadioButton  x:Name="Pink" HorizontalAlignment="Stretch" Content="{x:Static local:Lang.Pink}" Click="ChangeColor"/>
                     </MenuItem>
                 </MenuItem>
-                <MenuItem Header="Об Игре" Click="MenuItem_Click"></MenuItem>
+                <MenuItem Header="{x:Static local:Lang.AboutGame}" Click="MenuItem_Click"></MenuItem>
             </Menu>
         </Grid>
-
-
-
     </Grid>
 </Window>
